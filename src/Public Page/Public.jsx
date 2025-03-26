@@ -1,9 +1,10 @@
 import React from "react";
+import { SignInButton } from "@clerk/clerk-react";
 
 const Public = () => {
     return (
-        <div className="bg-gradient-to-b from-black to-violet-950 text-white w-screen h-[95vh] flex flex-col justify-center items-center p-6">
-            <div className="max-w-3xl text-center">
+        <div className="bg-gradient-to-b from-black to-violet-950 text-white w-screen h-full flex flex-col justify-center items-center p-6">
+            <div className="max-w-4xl text-center">
                 {/* Title */}
                 <h1 className="text-7xl font-extrabold mb-4 bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text animate-pulse">
                     Deepfake Detective
@@ -30,6 +31,15 @@ const Public = () => {
                         <li>✅ <span className="font-bold text-purple-300">User-Friendly Interface:</span> Easy-to-use platform for individuals, businesses, and media professionals.</li>
                         <li>✅ <span className="font-bold text-purple-300">Continuous Updates:</span> Always improving with the latest deepfake detection advancements.</li>
                     </ul>
+                </div>
+
+                {/* Sign In Button */}
+                <div className="mt-8">
+                    <SignInButton mode="modal">
+                        <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg text-lg transition-all hover:scale-105">
+                            Sign In to Get Started
+                        </button>
+                    </SignInButton>
                 </div>
             </div>
         </div>

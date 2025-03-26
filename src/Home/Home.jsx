@@ -79,49 +79,71 @@ export default function Home() {
   };
 
   return (
-      <div className="bg-gradient-to-b from-black to-violet-950 text-black w-screen h-[95vh] flex flex-col justify-center items-center">
-        <div className="w-full h-20 flex justify-center items-center">
-          <h1 className="text-4xl font-bold text-white">
-            See Our AI-Powered GAN-based Deepfake Detection Tool in Action
-          </h1>
-        </div>
-        <div className="w-full grid grid-cols-2 h-[80%] p-2">
-          <div className="flex flex-col justify-center items-center border-solid border-white border-r-2">
-            <div className="border-solid border-white border-4 w-[40%] h-[60%] m-2 bg-blue-500 p-5 rounded-2xl">
+      <div className="bg-gradient-to-b from-black to-violet-950 text-white w-screen h-[95vh] flex flex-col justify-center items-center p-6">
+        {/* Title */}
+        <h1 className="text-5xl font-extrabold mb-6 bg-gradient-to-r from-purple-400 to-pink-500 text-transparent bg-clip-text">
+          AI-Powered Deepfake Detection
+        </h1>
+        <p className="text-lg text-gray-300 text-center max-w-2xl mb-8">
+          Upload an image and let our advanced GAN-based AI model determine whether it's real or fake within seconds.
+        </p>
+
+        <div className="w-full grid grid-cols-2 h-[80%] gap-8 p-4">
+          {/* Left Section - Upload & Preview */}
+          <div className="flex flex-col justify-center items-center border-r border-white pr-8">
+            <div className="border-4 border-white w-[60%] h-[60%] bg-gray-800 p-5 rounded-2xl flex justify-center items-center">
               {isImageLoaded ? (
                   <img
                       src={selectedImage}
-                      className="rounded-2xl border-white border-solid border-4"
+                      className="rounded-2xl border-4 border-white"
+                      alt="Uploaded Preview"
                   />
               ) : (
-                  <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleSelectedImageChange}
-                      className="text-black file:cursor-pointer file:flex file:flex-col justify-center items-center bg-white border-black border-dashed border-2 w-[100%] h-[100%] file:w-[100%] file:h-[100%]"
-                  />
+                  <label className="w-full h-full flex flex-col justify-center items-center text-white bg-gray-900 border-2 border-dashed border-gray-500 rounded-lg cursor-pointer hover:bg-gray-800 transition-all">
+                    <span className="text-lg">Click to Upload</span>
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleSelectedImageChange}
+                        className="hidden"
+                    />
+                  </label>
               )}
             </div>
-            {isImageLoaded ? (
-                <div className="flex gap-2">
+
+            {isImageLoaded && (
+                <div className="flex gap-4 mt-4">
                   <button
                       onClick={handleCheckResult}
-                      className="bg-blue-500 text-white px-6 py-2 rounded-md hover:scale-105 hover:cursor-pointer hover:bg-blue-600"
+                      className="bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:scale-105 transition-all hover:bg-blue-600"
                   >
                     Check Result
                   </button>
                   <button
                       onClick={handleResetImage}
-                      className="bg-red-500 text-white px-6 py-2 rounded-md hover:scale-105 hover:cursor-pointer hover:bg-red-600"
+                      className="bg-red-500 text-white px-6 py-2 rounded-lg font-semibold hover:scale-105 transition-all hover:bg-red-600"
                   >
                     Reset Image
                   </button>
+                  <button
+                      className="bg-yellow-500 text-white px-6 py-2 rounded-lg font-semibold hover:scale-105 transition-all hover:bg-yellow-600"
+                  >
+                    Save Result
+                  </button>
                 </div>
-            ) : null}
+            )}
           </div>
+
+          {/* Right Section - Display Result */}
           <div className="flex flex-col justify-center items-center">
-            <h2 className="text-2xl font-bold text-white">The provided image is a</h2>
-            <h1 className="text-4xl font-bold text-white">{result}</h1>
+            <h2 className="text-2xl font-semibold text-gray-300">The provided image is:</h2>
+            <h1
+                className={`text-4xl font-bold mt-4 ${
+                    result === "Real Image" ? "text-green-400" : result === "Fake Image" ? "text-red-400" : "text-gray-500"
+                }`}
+            >
+              {result || "Awaiting Analysis..."}
+            </h1>
           </div>
         </div>
       </div>
