@@ -4,7 +4,7 @@ import {Navigate} from "react-router-dom";
 
 const Header = () => {
     return (
-        <nav className="bg-gray-800 p-4 flex">
+        <nav className="bg-black p-4 flex">
             <div className="text-white text-3xl font-bold container flex justify-start items-center">
                 <h1>Deepfake Detective 🔎</h1>
             </div>

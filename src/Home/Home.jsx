@@ -27,8 +27,16 @@ export default function Home() {
     reader.onload = () => {
       setSelectedImage(reader.result);
       setIsImageLoaded(true);
+      setResult(""); // Reset result when new image is uploaded
     };
     reader.readAsDataURL(file);
+  };
+
+  // Reset Image
+  const handleResetImage = () => {
+    setSelectedImage(null);
+    setIsImageLoaded(false);
+    setResult(""); // Reset result
   };
 
   // Preprocess Image for Model
@@ -49,9 +57,9 @@ export default function Home() {
         let grayImage = [];
         for (let i = 0; i < imageData.data.length; i += 4) {
           let gray =
-            imageData.data[i] * 0.299 +
-            imageData.data[i + 1] * 0.587 +
-            imageData.data[i + 2] * 0.114;
+              imageData.data[i] * 0.299 +
+              imageData.data[i + 1] * 0.587 +
+              imageData.data[i + 2] * 0.114;
           grayImage.push(gray / 255); // Normalize
         }
         resolve(tf.tensor4d(grayImage, [1, 128, 128, 1]));
@@ -71,39 +79,51 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-gray-800 text-black w-screen h-[95vh] flex flex-col justify-center items-center">
-      <div className="w-full h-20 flex justify-center items-center">
-        <h1 className="text-4xl font-bold text-white">See Our AI-Powered GAN based Deepfake Detection Tool in Action</h1>
-      </div>
-      <div className="w-full grid grid-cols-2 h-[80%] p-2">
-        <div className="flex flex-col justify-center items-center border-solid border-white border-r-2">
-          <div className="border-solid border-white border-4 w-[40%] h-[60%] m-2 bg-blue-500 p-5 rounded-2xl">
+      <div className="bg-gradient-to-b from-black to-violet-950 text-black w-screen h-[95vh] flex flex-col justify-center items-center">
+        <div className="w-full h-20 flex justify-center items-center">
+          <h1 className="text-4xl font-bold text-white">
+            See Our AI-Powered GAN-based Deepfake Detection Tool in Action
+          </h1>
+        </div>
+        <div className="w-full grid grid-cols-2 h-[80%] p-2">
+          <div className="flex flex-col justify-center items-center border-solid border-white border-r-2">
+            <div className="border-solid border-white border-4 w-[40%] h-[60%] m-2 bg-blue-500 p-5 rounded-2xl">
+              {isImageLoaded ? (
+                  <img
+                      src={selectedImage}
+                      className="rounded-2xl border-white border-solid border-4"
+                  />
+              ) : (
+                  <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleSelectedImageChange}
+                      className="text-black file:cursor-pointer file:flex file:flex-col justify-center items-center bg-white border-black border-dashed border-2 w-[100%] h-[100%] file:w-[100%] file:h-[100%]"
+                  />
+              )}
+            </div>
             {isImageLoaded ? (
-              <img
-                src={selectedImage}
-                className="rounded-2xl border-white border-solid border-4"
-              />
-            ) : (
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleSelectedImageChange}
-                className="text-black file:cursor-pointer file:flex file:flex-col justify-center items-center bg-white border-black border-dashed border-2 w-[100%] h-[100%] file:w-[100%] file:h-[100%]"
-              />
-            )}
+                <div className="flex gap-2">
+                  <button
+                      onClick={handleCheckResult}
+                      className="bg-blue-500 text-white px-6 py-2 rounded-md hover:scale-105 hover:cursor-pointer hover:bg-blue-600"
+                  >
+                    Check Result
+                  </button>
+                  <button
+                      onClick={handleResetImage}
+                      className="bg-red-500 text-white px-6 py-2 rounded-md hover:scale-105 hover:cursor-pointer hover:bg-red-600"
+                  >
+                    Reset Image
+                  </button>
+                </div>
+            ) : null}
           </div>
-          <button
-            onClick={handleCheckResult}
-            className="bg-blue-500 text-white px-6 py-2 rounded-md hover:scale-105 hover:cursor-pointer hover:bg-blue-600"
-          >
-            Check Result
-          </button>
-        </div>
-        <div className="flex flex-col justify-center items-center">
-          <h2 className="text-2xl font-bold text-white">The provide image is a</h2>
-          <h1 className="text-4xl font-bold text-white">{result}</h1>
+          <div className="flex flex-col justify-center items-center">
+            <h2 className="text-2xl font-bold text-white">The provided image is a</h2>
+            <h1 className="text-4xl font-bold text-white">{result}</h1>
+          </div>
         </div>
       </div>
-    </div>
   );
 }
